@@ -1,7 +1,3 @@
-//Load cell input onto HX711 board using a Blend Micro board
-//Robert Cundall March 2016
-//wire DAT to pin 8, CLK to pin 5, GND to GND and 2.7-5V to VIN
-
 #include "HX711.h"
 
 HX711 scale;
@@ -12,14 +8,9 @@ void setup()
   Serial.begin(9600);   // Starts serial communication in 9600 baud rate.
 
   Serial.println("Initializing scale calibration.");  // Prints user commands.
-  Serial.println("Please remove all weight from scale.");
-  Serial.println("Place known weights on scale one by one.");
-  Serial.println("Press '+' to increase calibration factor by 10");
-  Serial.println("Press '-' to decrease calibration factor by 10");
-  Serial.println("Press 'C' for tare");
+  Serial.println("Place weights");
 
-  scale.begin(5,6);   // Initializes the scaling process.
-                         // Used pins are A0 and A1.
+  scale.begin(5,6);   
 
   scale.set_scale();
   scale.tare();          // Resets the scale to 0.
@@ -37,6 +28,7 @@ void loop()
   Serial.println(" kg");
   Serial.print("Calibration factor: "); // Prints calibration factor.
   Serial.println(calibration_factor);
+  //if weight less than 5kg then power on motor
   if(scale.get_units() < 5.0)
   {
     pinMode(7,OUTPUT);
